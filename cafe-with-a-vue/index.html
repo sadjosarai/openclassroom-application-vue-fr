@@ -18,14 +18,14 @@
 			</p>
 
 			<h2>Contactez nous</h2>
-			<p>Adresse : 18 avenue du Beurre, Paris, France</p>
-			<p>Téléphone : 01 88 88 88 88</p>
-			<p>Email : hello@cafewithavue.bakery</p>
+			<p>{{Adresse}}</p>
+			<p>{{Téléphone}}</p>
+			<p>{{Email}}</p>
 			<p>Horaires :</p>
 			<ul>
-				<li>L-V: 06:00 à 16:00</li>
-				<li>Samedi: 07:00 à 14:00</li>
-				<li>Dimanche: 07:00 à 12:00</li>
+				<li>{{Horaire.openDays}}</li>
+				<li>{{Horaire.saturday}}</li>
+				<li>{{Horaire.sunday}}</li>
 			</ul>
 
 			<footer class="footer">
@@ -34,13 +34,28 @@
 		</div>
 
 		<script src="https://unpkg.com/vue@next"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.33/vue.cjs.js" integrity="sha512-2e2aXOh4/FgkCAUyurkjk0Uw4m1gPcExFwb1Ai4Ajjg97se/FEWfrLG1na4mq8cgOzouc8qLIqsh0EGksPGdqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script>
-			const app = new Vue({
-				el: "#app",
-				data: {
-					restaurantName: "La belle vue"
+			const app = Vue.createApp({
+				data() {
+					return {
+						restaurantName: "Café avec vue",
+						Horaire : {
+							openDays : "L-V: 06:00 à 16:00",
+							saturday: "Samedi: 07:00 à 14:00",
+							sunday : "Dimanche: 07:00 à 12:00"
+						},
+						Adresse : "18 avenue du Beurre, Paris, France",
+						Téléphone : "01 88 88 88 88",
+						Email : "hello@cafewithavue.bakery"
+					}
+				},
+				computed:{
+					copyright(){
+						return this.restaurantName
+					}
 				}
-			})
+			}).mount("#app")
 		</script>
 	</body>
 </html>
