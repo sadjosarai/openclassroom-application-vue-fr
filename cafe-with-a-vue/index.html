@@ -10,15 +10,37 @@
 	<body>
 		<div class="app">
 			<h1>La belle vue</h1>
+			<h2>{{restaurantName}}</h2>
 			<p class="description">
 				Bienvenue dans notre café la belle vue ! Nous sommes réputés pour notre
 				pain et nos merveilleuses pâtisseries. Faites vous plaisir dès le matin
 				ou avec un goûter réconfortant. Mais attention, vous verrez qu'il est
 				difficile de s'arrêter.
 			</p>
+			<p>
+				total cost of item = {{totalCost}}
+			</p>
 			<footer class="footer">
 				<p>Copyright La belle vue 2020</p>
 			</footer>
 		</div>
+		<script src="https://unpkg.com/vue@next"></script>
+		<script>
+			const app = Vue.createApp({
+				data(){
+					return {
+						restaurantName: "Mezurashi diner",
+						costOfApples : 6,
+						costOfPineapples : 7,
+						costOfBananas : 6
+					}
+				},
+				computed :{
+					totalCost(){
+						return this.costOfApples+this.costOfBananas+this.costOfPineapples
+					}
+				}
+			}).mount(".app")
+		</script>
 	</body>
 </html>
