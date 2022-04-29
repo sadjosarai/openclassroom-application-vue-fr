@@ -7,7 +7,12 @@
 		<link rel="stylesheet" href="./styles.css" />
 		<title>Cafe with a Vue</title>
 	</head>
-	<body>
+	<style>
+		v-cloak{
+			display: none;
+		}
+	</style>
+	<body v-cloak>
 		<div id="app" class="app">
 			<h1>{{ restaurantName }}</h1>
 			<p class="description">
@@ -19,27 +24,27 @@
 
 			<section class="menu">
 				<h2>Menu</h2>
-				<div class="menu-item">
+				<div class="menu-item" v-for ="item in simpleMenu">
 					<img
 						class="menu-item__image"
-						src="https://via.placeholder.com/300x150"
-						alt=""
+						:src="item.image.source"
+						:alt="item.image.alt"
 					/>
 					<div>
-						<h3>Nom de l'article</h3>
-						<p>En stock</p>
-						<p>En rupture de stock</p>
+						<h3>{{ item.name }}</h3>
+						<p v-if="item.inStock">En stock</p>
+						<p v-else>En rupture de stock</p>
 						<div>
-							<label for="add-item-quantity">Quantité :</label>
-							<input id="add-item-quantity" type="number" />
-							<button>Ajouter au panier d'achat</button>
+							<label for="add-item-quantity">Quantité : {{item.quantity}} </label>
+							<input id="add-item-quantity" v-model="item.quantity" type="number"/>
+							<button @click="addToShoppingCart(item.quantity)">Ajouter au panier d'achat</button>
 						</div>
 					</div>
 				</div>
 			</section>
 
 			<aside class="shopping-cart">
-				<h2>Panier d'achat: 0 articles</h2>
+				<h2>Panier d'achat: {{total}} articles</h2>
 			</aside>
 
 			<h2>Contactez nous</h2>
@@ -54,14 +59,15 @@
 			</ul>
 
 			<footer class="footer">
-				<p>Copyright {{ restaurantName }} 2020</p>
+				<p>{{ copyright}}</p>
 			</footer>
 		</div>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.33/vue.cjs.js" integrity="sha512-2e2aXOh4/FgkCAUyurkjk0Uw4m1gPcExFwb1Ai4Ajjg97se/FEWfrLG1na4mq8cgOzouc8qLIqsh0EGksPGdqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>		<script>
+		<script src="https://unpkg.com/vue@next"></script>
+		<script>
 			const app = Vue.createApp({
 				data() {
 					return {
+						total:0,
 						address: "18 avenue du Beurre, Paris, France",
 						email: "hello@cafewithavue.bakery",
 						phone: "01 88 88 88 88",
@@ -101,6 +107,11 @@
 					copyright() {
 						const currentYear = new Date().getFullYear()
 						return `Copyright ${this.restaurantName} ${currentYear}`
+					},
+				},
+				methods:{
+					addToShoppingCart(amount){
+						return this.total+=amount
 					}
 				}
 			}).mount("#app")
